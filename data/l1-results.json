@@ -2,7 +2,7 @@
   {
     "description": "FIN-01 Ambiguous revenue indicator",
     "passed": true,
-    "reason": "All tie candidates present: {'fin_arr', 'fin_mrr'} \u2014 model can present clarification.",
+    "reason": "All tie candidates present: {'fin_mrr', 'fin_arr'} \u2014 model can present clarification.",
     "raw": {
       "results": [
         {
@@ -141,7 +141,7 @@
   {
     "description": "FIN-04 Ambiguous cost indicator (COGS vs OpEx tie)",
     "passed": true,
-    "reason": "All tie candidates present: {'fin_cogs', 'fin_opex'} \u2014 model can present clarification.",
+    "reason": "All tie candidates present: {'fin_opex', 'fin_cogs'} \u2014 model can present clarification.",
     "raw": {
       "results": [
         {
@@ -222,7 +222,7 @@
   {
     "description": "MULTI-02 Support CSAT and ARR for churn-risk analysis",
     "passed": true,
-    "reason": "All expected IDs found: {'sup_csat', 'fin_arr'}",
+    "reason": "All expected IDs found: {'fin_arr', 'sup_csat'}",
     "raw": {
       "results": [
         {

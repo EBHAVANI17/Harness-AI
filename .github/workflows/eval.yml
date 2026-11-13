@@ -1,0 +1,62 @@
+name: Harness-Aware AI Agent Evaluations
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    name: Run Harness-Aware Plugin Evaluation Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install "fastmcp>=0.1.0" "uvicorn>=0.30.0" "pandas>=2.0.0" "pyyaml>=6.0" "pydantic>=2.0" "google-generativeai>=0.8.0"
+
+      - name: Start FastMCP Server
+        run: |
+          python server.py &
+          echo "Waiting for FastMCP server on port 8000..."
+          sleep 4
+          curl -s http://localhost:8000/health || echo "Server started"
+
+      - name: Level 1 — Deterministic Contract & Disambiguation Evaluation
+        run: |
+          python level_one.py
+
+      - name: Adversarial Red-Teaming & Injection Defense Evaluation
+        run: |
+          python redteam_generator.py
+
+      - name: Offline Replay Regression Suite
+        run: |
+          python replay.py
+
+      - name: Generate Visual Evaluation Dashboard
+        run: |
+          python generate_dashboard.py
+
+      - name: Upload Evaluation Dashboard Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-evaluation-dashboard
+          path: reports/
+          retention-days: 14

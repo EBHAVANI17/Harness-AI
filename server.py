@@ -230,6 +230,7 @@ def _score(indicator: str, metric: dict[str, Any]) -> float:
 
     Design decisions
     ----------------
+    - Security check     → 0.0 (reject injection payloads containing semicolons, shell/SQL keywords)
     - Exact alias match  → 0.95 (unambiguous)
     - Substring match    → 0.78 (partial alias coverage)
     - Token overlap      → up to 0.74 ONLY when the indicator has ≥ 2 tokens
@@ -238,7 +239,12 @@ def _score(indicator: str, metric: dict[str, Any]) -> float:
                            avoid spurious cross-domain matches (e.g. "price"
                            matching "inventory turns" via shared stop-words).
     """
+    import re
     ind_lower = indicator.strip().lower()
+
+    # Security check: reject potential SQL injection, command chaining, or delimiter escapes
+    if re.search(r"[;`|><\$\{\}]|\b(drop|truncate|delete|exec|system|admin)\b", ind_lower):
+        return 0.0
 
     # Exact alias match → high confidence
     for alias in metric["aliases"]:
