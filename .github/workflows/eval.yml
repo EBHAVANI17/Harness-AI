@@ -46,6 +46,10 @@ jobs:
         run: |
           python redteam_generator.py
 
+      - name: Multi-Industry Enterprise Benchmark (5 Sectors)
+        run: |
+          python test_industries.py
+
       - name: Offline Replay Regression Suite
         run: |
           python replay.py
@@ -60,3 +64,4 @@ jobs:
           name: agent-evaluation-dashboard
           path: reports/
           retention-days: 14
+

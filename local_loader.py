@@ -29,6 +29,11 @@ DOMAIN_DIRS: dict[str, str] = {
     "engineering": "engineering",
     "support":     "support",
     "ops":         "ops",
+    "healthcare":  "healthcare",
+    "bfsi":        "bfsi",
+    "retail":      "retail",
+    "logistics":   "logistics",
+    "saas":        "saas",
 }
 
 

@@ -1,0 +1,223 @@
+description: Harness-Aware Evaluation Across 5 Distinct Enterprise Industries
+industries:
+  - id: healthcare
+    name: Healthcare & Clinical Operations
+    prefix: hc_
+    fetch_tool: fetch_healthcare
+  - id: bfsi
+    name: Banking, Financial Services & Insurance (BFSI)
+    prefix: bfsi_
+    fetch_tool: fetch_bfsi
+  - id: retail
+    name: Retail & E-Commerce
+    prefix: ret_
+    fetch_tool: fetch_retail
+  - id: logistics
+    name: Supply Chain & Freight Logistics
+    prefix: log_
+    fetch_tool: fetch_logistics
+  - id: saas
+    name: SaaS, Cloud Infrastructure & DevOps
+    prefix: saas_
+    fetch_tool: fetch_saas
+
+tests:
+  # ── 1. Healthcare ──────────────────────────────────────────────────────────
+  - id: HC-01
+    industry: healthcare
+    description: HC-01 Ambiguous bed indicator (Occupancy vs Turnover)
+    vars:
+      indicator: bed
+      query: What is our hospital bed rate for Q4?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: [hc_bed_occupancy, hc_bed_turnover]
+      expected_top_ids: [hc_bed_occupancy, hc_bed_turnover]
+    metadata:
+      mechanism: ambiguous_query
+      expected_type: clarification
+
+  - id: HC-02
+    industry: healthcare
+    description: HC-02 Clean tool selection for 30-day patient readmissions
+    vars:
+      indicator: readmission rate
+      query: Show me our 30-day patient readmission rate.
+      expected_tools: [resolve_metric, fetch_healthcare]
+      expected_metric_ids: [hc_readmission_30d]
+      expected_top_ids: []
+    metadata:
+      mechanism: tool_selection
+      expected_type: pass
+
+  - id: HC-03
+    industry: healthcare
+    description: HC-03 Coverage gap — unapproved clinical trial results
+    vars:
+      indicator: phase 4 oncology trial results
+      query: What are the phase 4 clinical trial results for drug XYZ?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: []
+      expected_top_ids: []
+    metadata:
+      mechanism: coverage_gap
+      expected_type: gap
+
+  # ── 2. Banking, FinTech & Insurance (BFSI) ─────────────────────────────────
+  - id: BFSI-01
+    industry: bfsi
+    description: BFSI-01 Ambiguous risk indicator (Credit Risk vs Market VaR)
+    vars:
+      indicator: risk
+      query: What is our portfolio risk exposure this quarter?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: [bfsi_credit_risk, bfsi_market_risk]
+      expected_top_ids: [bfsi_credit_risk, bfsi_market_risk]
+    metadata:
+      mechanism: ambiguous_query
+      expected_type: clarification
+
+  - id: BFSI-02
+    industry: bfsi
+    description: BFSI-02 Clean tool selection for Capital Adequacy Ratio (CAR)
+    vars:
+      indicator: capital adequacy ratio
+      query: What is our Basel III Capital Adequacy Ratio (CAR)?
+      expected_tools: [resolve_metric, fetch_bfsi]
+      expected_metric_ids: [bfsi_car]
+      expected_top_ids: []
+    metadata:
+      mechanism: tool_selection
+      expected_type: pass
+
+  - id: BFSI-03
+    industry: bfsi
+    description: BFSI-03 Coverage gap — live crypto spot prices
+    vars:
+      indicator: bitcoin spot price
+      query: What is the current spot exchange price of Bitcoin?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: []
+      expected_top_ids: []
+    metadata:
+      mechanism: coverage_gap
+      expected_type: gap
+
+  # ── 3. Retail & E-Commerce ─────────────────────────────────────────────────
+  - id: RET-01
+    industry: retail
+    description: RET-01 Ambiguous return indicator (Return Rate vs ROAS)
+    vars:
+      indicator: return
+      query: What was our return performance last quarter?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: [ret_return_rate, ret_roas]
+      expected_top_ids: [ret_return_rate, ret_roas]
+    metadata:
+      mechanism: ambiguous_query
+      expected_type: clarification
+
+  - id: RET-02
+    industry: retail
+    description: RET-02 Clean tool selection for Customer Acquisition Cost (CAC)
+    vars:
+      indicator: customer acquisition cost
+      query: Show me our customer acquisition cost across channels.
+      expected_tools: [resolve_metric, fetch_retail]
+      expected_metric_ids: [ret_cac]
+      expected_top_ids: []
+    metadata:
+      mechanism: tool_selection
+      expected_type: pass
+
+  - id: RET-03
+    industry: retail
+    description: RET-03 Coverage gap — competitor pricing intelligence
+    vars:
+      indicator: amazon competitor price scrape
+      query: What is our competitor's price for product SKU-999 on Amazon?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: []
+      expected_top_ids: []
+    metadata:
+      mechanism: coverage_gap
+      expected_type: gap
+
+  # ── 4. Supply Chain & Logistics ────────────────────────────────────────────
+  - id: LOG-01
+    industry: logistics
+    description: LOG-01 Ambiguous lead time (Supplier Lead Time vs Inbound Dock-to-Stock)
+    vars:
+      indicator: lead time
+      query: What is our average lead time?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: [log_supplier_lead_time, ops_supplier_lead_time]
+      expected_top_ids: []
+    metadata:
+      mechanism: ambiguous_query
+      expected_type: clarification
+
+  - id: LOG-02
+    industry: logistics
+    description: LOG-02 Clean tool selection for On-Time In-Full (OTIF) Delivery
+    vars:
+      indicator: on time in full
+      query: What is our current On-Time In-Full (OTIF) shipment rate?
+      expected_tools: [resolve_metric, fetch_logistics]
+      expected_metric_ids: [log_otif]
+      expected_top_ids: []
+    metadata:
+      mechanism: tool_selection
+      expected_type: pass
+
+  - id: LOG-03
+    industry: logistics
+    description: LOG-03 Coverage gap — canal navigational draught
+    vars:
+      indicator: panama canal water depth
+      query: What is the current water draft allowance for the Panama Canal?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: []
+      expected_top_ids: []
+    metadata:
+      mechanism: coverage_gap
+      expected_type: gap
+
+  # ── 5. SaaS, Cloud Infrastructure & DevOps ─────────────────────────────────
+  - id: SAAS-01
+    industry: saas
+    description: SAAS-01 Ambiguous retention indicator (Net Revenue Retention vs Cohort User Retention)
+    vars:
+      indicator: retention
+      query: What is our customer retention rate for FY2024?
+      expected_tools: [resolve_metric]
+      expected_metric_ids: [saas_nrr, saas_user_retention]
+      expected_top_ids: [saas_nrr, saas_user_retention]
+    metadata:
+      mechanism: ambiguous_query
+      expected_type: clarification
+
+  - id: SAAS-02
+    industry: saas
+    description: SAAS-02 Clean tool selection for API P99 latency
+    vars:
+      indicator: p99 latency
+      query: Show me our API P99 latency in production.
+      expected_tools: [resolve_metric, fetch_saas]
+      expected_metric_ids: [saas_p99_latency]
+      expected_top_ids: []
+    metadata:
+      mechanism: tool_selection
+      expected_type: pass
+
+  - id: SAAS-03
+    industry: saas
+    description: SAAS-03 Cross-industry multi-hop (Retail CAC vs SaaS NRR)
+    vars:
+      indicator: cac,nrr
+      query: Compare our retail acquisition cost with our SaaS net revenue retention.
+      expected_tools: [resolve_metric, fetch_retail, fetch_saas]
+      expected_metric_ids: [ret_cac, saas_nrr]
+      expected_top_ids: []
+    metadata:
+      mechanism: multi_step_reasoning
+      expected_type: pass

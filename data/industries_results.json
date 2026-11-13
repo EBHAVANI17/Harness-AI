@@ -1,0 +1,591 @@
+{
+  "benchmark": "5-Industry Enterprise Evaluation",
+  "total_tests": 15,
+  "total_passed": 15,
+  "overall_pass_rate": 100.0,
+  "industries": {
+    "healthcare": {
+      "name": "Healthcare & Clinical Operations",
+      "total": 3,
+      "passed": 3,
+      "cases": [
+        {
+          "id": "HC-01",
+          "industry": "healthcare",
+          "description": "HC-01 Ambiguous bed indicator (Occupancy vs Turnover)",
+          "query": "What is our hospital bed rate for Q4?",
+          "passed": true,
+          "expected_type": "clarification",
+          "reason": "All ambiguous candidate options present ({'hc_bed_turnover', 'hc_bed_occupancy'}) enabling agent clarification.",
+          "resolved_candidates": [
+            "hc_bed_turnover",
+            "hc_bed_occupancy"
+          ],
+          "tool_executed": false,
+          "sample_output": null
+        },
+        {
+          "id": "HC-02",
+          "industry": "healthcare",
+          "description": "HC-02 Clean tool selection for 30-day patient readmissions",
+          "query": "Show me our 30-day patient readmission rate.",
+          "passed": true,
+          "expected_type": "pass",
+          "reason": "Successfully resolved expected metric IDs: {'hc_readmission_30d'}",
+          "resolved_candidates": [
+            "hc_readmission_30d"
+          ],
+          "tool_executed": true,
+          "sample_output": {
+            "data": {
+              "hc_readmission_30d": {
+                "value": 9.2,
+                "unit": "%",
+                "period": "2024-Q4"
+              }
+            },
+            "missing": []
+          }
+        },
+        {
+          "id": "HC-03",
+          "industry": "healthcare",
+          "description": "HC-03 Coverage gap \u2014 unapproved clinical trial results",
+          "query": "What are the phase 4 clinical trial results for drug XYZ?",
+          "passed": true,
+          "expected_type": "gap",
+          "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+          "resolved_candidates": [],
+          "tool_executed": false,
+          "sample_output": null
+        }
+      ]
+    },
+    "bfsi": {
+      "name": "Banking, Financial Services & Insurance (BFSI)",
+      "total": 3,
+      "passed": 3,
+      "cases": [
+        {
+          "id": "BFSI-01",
+          "industry": "bfsi",
+          "description": "BFSI-01 Ambiguous risk indicator (Credit Risk vs Market VaR)",
+          "query": "What is our portfolio risk exposure this quarter?",
+          "passed": true,
+          "expected_type": "clarification",
+          "reason": "All ambiguous candidate options present ({'bfsi_market_risk', 'bfsi_credit_risk'}) enabling agent clarification.",
+          "resolved_candidates": [
+            "bfsi_market_risk",
+            "bfsi_credit_risk"
+          ],
+          "tool_executed": false,
+          "sample_output": null
+        },
+        {
+          "id": "BFSI-02",
+          "industry": "bfsi",
+          "description": "BFSI-02 Clean tool selection for Capital Adequacy Ratio (CAR)",
+          "query": "What is our Basel III Capital Adequacy Ratio (CAR)?",
+          "passed": true,
+          "expected_type": "pass",
+          "reason": "Successfully resolved expected metric IDs: {'bfsi_car'}",
+          "resolved_candidates": [
+            "bfsi_car"
+          ],
+          "tool_executed": true,
+          "sample_output": {
+            "data": {
+              "bfsi_car": {
+                "value": 15.8,
+                "unit": "%",
+                "period": "2024-Q4"
+              }
+            },
+            "missing": []
+          }
+        },
+        {
+          "id": "BFSI-03",
+          "industry": "bfsi",
+          "description": "BFSI-03 Coverage gap \u2014 live crypto spot prices",
+          "query": "What is the current spot exchange price of Bitcoin?",
+          "passed": true,
+          "expected_type": "gap",
+          "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+          "resolved_candidates": [],
+          "tool_executed": false,
+          "sample_output": null
+        }
+      ]
+    },
+    "retail": {
+      "name": "Retail & E-Commerce",
+      "total": 3,
+      "passed": 3,
+      "cases": [
+        {
+          "id": "RET-01",
+          "industry": "retail",
+          "description": "RET-01 Ambiguous return indicator (Return Rate vs ROAS)",
+          "query": "What was our return performance last quarter?",
+          "passed": true,
+          "expected_type": "clarification",
+          "reason": "All ambiguous candidate options present ({'ret_roas', 'ret_return_rate'}) enabling agent clarification.",
+          "resolved_candidates": [
+            "ret_roas",
+            "ret_return_rate"
+          ],
+          "tool_executed": false,
+          "sample_output": null
+        },
+        {
+          "id": "RET-02",
+          "industry": "retail",
+          "description": "RET-02 Clean tool selection for Customer Acquisition Cost (CAC)",
+          "query": "Show me our customer acquisition cost across channels.",
+          "passed": true,
+          "expected_type": "pass",
+          "reason": "Successfully resolved expected metric IDs: {'ret_cac'}",
+          "resolved_candidates": [
+            "sup_csat",
+            "ret_cac",
+            "ret_return_rate",
+            "saas_user_retention"
+          ],
+          "tool_executed": true,
+          "sample_output": {
+            "data": {
+              "ret_cac": {
+                "value": 48.5,
+                "unit": "USD",
+                "period": "2024-Q4"
+              }
+            },
+            "missing": []
+          }
+        },
+        {
+          "id": "RET-03",
+          "industry": "retail",
+          "description": "RET-03 Coverage gap \u2014 competitor pricing intelligence",
+          "query": "What is our competitor's price for product SKU-999 on Amazon?",
+          "passed": true,
+          "expected_type": "gap",
+          "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+          "resolved_candidates": [],
+          "tool_executed": false,
+          "sample_output": null
+        }
+      ]
+    },
+    "logistics": {
+      "name": "Supply Chain & Freight Logistics",
+      "total": 3,
+      "passed": 3,
+      "cases": [
+        {
+          "id": "LOG-01",
+          "industry": "logistics",
+          "description": "LOG-01 Ambiguous lead time (Supplier Lead Time vs Inbound Dock-to-Stock)",
+          "query": "What is our average lead time?",
+          "passed": true,
+          "expected_type": "clarification",
+          "reason": "All ambiguous candidate options present ({'ops_supplier_lead_time', 'log_supplier_lead_time'}) enabling agent clarification.",
+          "resolved_candidates": [
+            "ops_supplier_lead_time",
+            "eng_ticket_cycle",
+            "log_supplier_lead_time"
+          ],
+          "tool_executed": false,
+          "sample_output": null
+        },
+        {
+          "id": "LOG-02",
+          "industry": "logistics",
+          "description": "LOG-02 Clean tool selection for On-Time In-Full (OTIF) Delivery",
+          "query": "What is our current On-Time In-Full (OTIF) shipment rate?",
+          "passed": true,
+          "expected_type": "pass",
+          "reason": "Successfully resolved expected metric IDs: {'log_otif'}",
+          "resolved_candidates": [
+            "log_doh",
+            "ret_roas",
+            "log_otif",
+            "ops_on_time_delivery"
+          ],
+          "tool_executed": true,
+          "sample_output": {
+            "data": {
+              "log_otif": {
+                "value": 95.2,
+                "unit": "%",
+                "period": "2024-Q4"
+              }
+            },
+            "missing": []
+          }
+        },
+        {
+          "id": "LOG-03",
+          "industry": "logistics",
+          "description": "LOG-03 Coverage gap \u2014 canal navigational draught",
+          "query": "What is the current water draft allowance for the Panama Canal?",
+          "passed": true,
+          "expected_type": "gap",
+          "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+          "resolved_candidates": [],
+          "tool_executed": false,
+          "sample_output": null
+        }
+      ]
+    },
+    "saas": {
+      "name": "SaaS, Cloud Infrastructure & DevOps",
+      "total": 3,
+      "passed": 3,
+      "cases": [
+        {
+          "id": "SAAS-01",
+          "industry": "saas",
+          "description": "SAAS-01 Ambiguous retention indicator (Net Revenue Retention vs Cohort User Retention)",
+          "query": "What is our customer retention rate for FY2024?",
+          "passed": true,
+          "expected_type": "clarification",
+          "reason": "All ambiguous candidate options present ({'saas_user_retention', 'saas_nrr'}) enabling agent clarification.",
+          "resolved_candidates": [
+            "saas_user_retention",
+            "saas_nrr"
+          ],
+          "tool_executed": false,
+          "sample_output": null
+        },
+        {
+          "id": "SAAS-02",
+          "industry": "saas",
+          "description": "SAAS-02 Clean tool selection for API P99 latency",
+          "query": "Show me our API P99 latency in production.",
+          "passed": true,
+          "expected_type": "pass",
+          "reason": "Successfully resolved expected metric IDs: {'saas_p99_latency'}",
+          "resolved_candidates": [
+            "saas_p99_latency"
+          ],
+          "tool_executed": true,
+          "sample_output": {
+            "data": {
+              "saas_p99_latency": {
+                "value": 142.0,
+                "unit": "ms",
+                "period": "2024-Q4"
+              }
+            },
+            "missing": []
+          }
+        },
+        {
+          "id": "SAAS-03",
+          "industry": "saas",
+          "description": "SAAS-03 Cross-industry multi-hop (Retail CAC vs SaaS NRR)",
+          "query": "Compare our retail acquisition cost with our SaaS net revenue retention.",
+          "passed": true,
+          "expected_type": "pass",
+          "reason": "Successfully resolved expected metric IDs: {'ret_cac', 'saas_nrr'}",
+          "resolved_candidates": [
+            "ret_cac",
+            "saas_nrr"
+          ],
+          "tool_executed": true,
+          "sample_output": {
+            "data": {
+              "saas_nrr": {
+                "value": 124.5,
+                "unit": "%",
+                "period": "2024-Q4"
+              }
+            },
+            "missing": [],
+            "wrong_domain": [
+              "ret_cac"
+            ],
+            "hint": "The following IDs do not belong to the 'saas' domain and were skipped: ['ret_cac'].  Use the correct fetch tool."
+          }
+        }
+      ]
+    }
+  },
+  "all_cases": [
+    {
+      "id": "HC-01",
+      "industry": "healthcare",
+      "description": "HC-01 Ambiguous bed indicator (Occupancy vs Turnover)",
+      "query": "What is our hospital bed rate for Q4?",
+      "passed": true,
+      "expected_type": "clarification",
+      "reason": "All ambiguous candidate options present ({'hc_bed_turnover', 'hc_bed_occupancy'}) enabling agent clarification.",
+      "resolved_candidates": [
+        "hc_bed_turnover",
+        "hc_bed_occupancy"
+      ],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "HC-02",
+      "industry": "healthcare",
+      "description": "HC-02 Clean tool selection for 30-day patient readmissions",
+      "query": "Show me our 30-day patient readmission rate.",
+      "passed": true,
+      "expected_type": "pass",
+      "reason": "Successfully resolved expected metric IDs: {'hc_readmission_30d'}",
+      "resolved_candidates": [
+        "hc_readmission_30d"
+      ],
+      "tool_executed": true,
+      "sample_output": {
+        "data": {
+          "hc_readmission_30d": {
+            "value": 9.2,
+            "unit": "%",
+            "period": "2024-Q4"
+          }
+        },
+        "missing": []
+      }
+    },
+    {
+      "id": "HC-03",
+      "industry": "healthcare",
+      "description": "HC-03 Coverage gap \u2014 unapproved clinical trial results",
+      "query": "What are the phase 4 clinical trial results for drug XYZ?",
+      "passed": true,
+      "expected_type": "gap",
+      "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+      "resolved_candidates": [],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "BFSI-01",
+      "industry": "bfsi",
+      "description": "BFSI-01 Ambiguous risk indicator (Credit Risk vs Market VaR)",
+      "query": "What is our portfolio risk exposure this quarter?",
+      "passed": true,
+      "expected_type": "clarification",
+      "reason": "All ambiguous candidate options present ({'bfsi_market_risk', 'bfsi_credit_risk'}) enabling agent clarification.",
+      "resolved_candidates": [
+        "bfsi_market_risk",
+        "bfsi_credit_risk"
+      ],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "BFSI-02",
+      "industry": "bfsi",
+      "description": "BFSI-02 Clean tool selection for Capital Adequacy Ratio (CAR)",
+      "query": "What is our Basel III Capital Adequacy Ratio (CAR)?",
+      "passed": true,
+      "expected_type": "pass",
+      "reason": "Successfully resolved expected metric IDs: {'bfsi_car'}",
+      "resolved_candidates": [
+        "bfsi_car"
+      ],
+      "tool_executed": true,
+      "sample_output": {
+        "data": {
+          "bfsi_car": {
+            "value": 15.8,
+            "unit": "%",
+            "period": "2024-Q4"
+          }
+        },
+        "missing": []
+      }
+    },
+    {
+      "id": "BFSI-03",
+      "industry": "bfsi",
+      "description": "BFSI-03 Coverage gap \u2014 live crypto spot prices",
+      "query": "What is the current spot exchange price of Bitcoin?",
+      "passed": true,
+      "expected_type": "gap",
+      "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+      "resolved_candidates": [],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "RET-01",
+      "industry": "retail",
+      "description": "RET-01 Ambiguous return indicator (Return Rate vs ROAS)",
+      "query": "What was our return performance last quarter?",
+      "passed": true,
+      "expected_type": "clarification",
+      "reason": "All ambiguous candidate options present ({'ret_roas', 'ret_return_rate'}) enabling agent clarification.",
+      "resolved_candidates": [
+        "ret_roas",
+        "ret_return_rate"
+      ],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "RET-02",
+      "industry": "retail",
+      "description": "RET-02 Clean tool selection for Customer Acquisition Cost (CAC)",
+      "query": "Show me our customer acquisition cost across channels.",
+      "passed": true,
+      "expected_type": "pass",
+      "reason": "Successfully resolved expected metric IDs: {'ret_cac'}",
+      "resolved_candidates": [
+        "sup_csat",
+        "ret_cac",
+        "ret_return_rate",
+        "saas_user_retention"
+      ],
+      "tool_executed": true,
+      "sample_output": {
+        "data": {
+          "ret_cac": {
+            "value": 48.5,
+            "unit": "USD",
+            "period": "2024-Q4"
+          }
+        },
+        "missing": []
+      }
+    },
+    {
+      "id": "RET-03",
+      "industry": "retail",
+      "description": "RET-03 Coverage gap \u2014 competitor pricing intelligence",
+      "query": "What is our competitor's price for product SKU-999 on Amazon?",
+      "passed": true,
+      "expected_type": "gap",
+      "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+      "resolved_candidates": [],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "LOG-01",
+      "industry": "logistics",
+      "description": "LOG-01 Ambiguous lead time (Supplier Lead Time vs Inbound Dock-to-Stock)",
+      "query": "What is our average lead time?",
+      "passed": true,
+      "expected_type": "clarification",
+      "reason": "All ambiguous candidate options present ({'ops_supplier_lead_time', 'log_supplier_lead_time'}) enabling agent clarification.",
+      "resolved_candidates": [
+        "ops_supplier_lead_time",
+        "eng_ticket_cycle",
+        "log_supplier_lead_time"
+      ],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "LOG-02",
+      "industry": "logistics",
+      "description": "LOG-02 Clean tool selection for On-Time In-Full (OTIF) Delivery",
+      "query": "What is our current On-Time In-Full (OTIF) shipment rate?",
+      "passed": true,
+      "expected_type": "pass",
+      "reason": "Successfully resolved expected metric IDs: {'log_otif'}",
+      "resolved_candidates": [
+        "log_doh",
+        "ret_roas",
+        "log_otif",
+        "ops_on_time_delivery"
+      ],
+      "tool_executed": true,
+      "sample_output": {
+        "data": {
+          "log_otif": {
+            "value": 95.2,
+            "unit": "%",
+            "period": "2024-Q4"
+          }
+        },
+        "missing": []
+      }
+    },
+    {
+      "id": "LOG-03",
+      "industry": "logistics",
+      "description": "LOG-03 Coverage gap \u2014 canal navigational draught",
+      "query": "What is the current water draft allowance for the Panama Canal?",
+      "passed": true,
+      "expected_type": "gap",
+      "reason": "Coverage gap correctly identified (0 high-confidence candidates).",
+      "resolved_candidates": [],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "SAAS-01",
+      "industry": "saas",
+      "description": "SAAS-01 Ambiguous retention indicator (Net Revenue Retention vs Cohort User Retention)",
+      "query": "What is our customer retention rate for FY2024?",
+      "passed": true,
+      "expected_type": "clarification",
+      "reason": "All ambiguous candidate options present ({'saas_user_retention', 'saas_nrr'}) enabling agent clarification.",
+      "resolved_candidates": [
+        "saas_user_retention",
+        "saas_nrr"
+      ],
+      "tool_executed": false,
+      "sample_output": null
+    },
+    {
+      "id": "SAAS-02",
+      "industry": "saas",
+      "description": "SAAS-02 Clean tool selection for API P99 latency",
+      "query": "Show me our API P99 latency in production.",
+      "passed": true,
+      "expected_type": "pass",
+      "reason": "Successfully resolved expected metric IDs: {'saas_p99_latency'}",
+      "resolved_candidates": [
+        "saas_p99_latency"
+      ],
+      "tool_executed": true,
+      "sample_output": {
+        "data": {
+          "saas_p99_latency": {
+            "value": 142.0,
+            "unit": "ms",
+            "period": "2024-Q4"
+          }
+        },
+        "missing": []
+      }
+    },
+    {
+      "id": "SAAS-03",
+      "industry": "saas",
+      "description": "SAAS-03 Cross-industry multi-hop (Retail CAC vs SaaS NRR)",
+      "query": "Compare our retail acquisition cost with our SaaS net revenue retention.",
+      "passed": true,
+      "expected_type": "pass",
+      "reason": "Successfully resolved expected metric IDs: {'ret_cac', 'saas_nrr'}",
+      "resolved_candidates": [
+        "ret_cac",
+        "saas_nrr"
+      ],
+      "tool_executed": true,
+      "sample_output": {
+        "data": {
+          "saas_nrr": {
+            "value": 124.5,
+            "unit": "%",
+            "period": "2024-Q4"
+          }
+        },
+        "missing": [],
+        "wrong_domain": [
+          "ret_cac"
+        ],
+        "hint": "The following IDs do not belong to the 'saas' domain and were skipped: ['ret_cac'].  Use the correct fetch tool."
+      }
+    }
+  ]
+}

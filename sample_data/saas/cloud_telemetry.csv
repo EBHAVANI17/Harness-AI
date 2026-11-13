@@ -1,0 +1,5 @@
+service_tier,region,mrr_usd,nrr_pct,user_retention_pct,cloud_cost_per_query_usd,p99_latency_ms,uptime_sla_pct,period
+ENTERPRISE-TIER,us-east-1,840000,124.5,94.2,0.0034,142,99.992,2024-Q4
+GROWTH-TIER,us-west-2,320000,112.0,86.8,0.0041,168,99.985,2024-Q4
+STARTER-TIER,eu-central-1,95000,98.2,74.5,0.0052,210,99.950,2024-Q4
+INTERNAL-INFRA,global,0,100.0,99.9,0.0021,85,99.998,2024-Q4

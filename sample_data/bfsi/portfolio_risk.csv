@@ -1,0 +1,5 @@
+portfolio_id,asset_class,car_pct,nim_pct,npl_ratio_pct,ltv_ratio_pct,credit_risk_usd,market_risk_var_usd,period
+CORP-CREDIT-A,Commercial_Lending,15.8,3.42,1.85,62.4,14200000,4500000,2024-Q4
+RETAIL-MORTG-B,Residential_Mortgage,17.2,2.88,0.92,71.5,8600000,1200000,2024-Q4
+WEALTH-INV-C,Treasury_Securities,21.4,1.95,0.12,45.0,2100000,8900000,2024-Q4
+SME-LOANS-D,Small_Business,13.6,4.15,3.40,68.2,19500000,3100000,2024-Q4

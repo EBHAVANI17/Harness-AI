@@ -2,7 +2,7 @@
   {
     "description": "FIN-01 Ambiguous revenue indicator",
     "passed": true,
-    "reason": "All tie candidates present: {'fin_mrr', 'fin_arr'} \u2014 model can present clarification.",
+    "reason": "All tie candidates present: {'fin_arr', 'fin_mrr'} \u2014 model can present clarification.",
     "raw": {
       "results": [
         {
@@ -25,6 +25,12 @@
               "title": "Cost of Goods Sold (COGS)",
               "domain": "finance",
               "confidence": 0.78
+            },
+            {
+              "metric_id": "saas_nrr",
+              "title": "Net Revenue Retention (NRR)",
+              "domain": "saas",
+              "confidence": 0.78
             }
           ],
           "note": "Ambiguous: 'revenue' matches multiple metrics with equal confidence. Please clarify which metric the user wants before fetching."
@@ -35,12 +41,14 @@
     "candidate_ids": [
       "fin_arr",
       "fin_cogs",
-      "fin_mrr"
+      "fin_mrr",
+      "saas_nrr"
     ],
     "high_confidence_ids": [
       "fin_arr",
       "fin_cogs",
-      "fin_mrr"
+      "fin_mrr",
+      "saas_nrr"
     ]
   },
   {
@@ -74,18 +82,34 @@
               "title": "Gross Margin %",
               "domain": "finance",
               "confidence": 0.95
+            },
+            {
+              "metric_id": "bfsi_nim",
+              "title": "Net Interest Margin (NIM)",
+              "domain": "bfsi",
+              "confidence": 0.68
+            },
+            {
+              "metric_id": "ret_gmv",
+              "title": "Gross Merchandise Value (GMV)",
+              "domain": "retail",
+              "confidence": 0.68
             }
           ],
-          "note": "Resolved."
+          "note": "Multiple candidates for 'gross margin'. Top match is recommended, but confirm with user if context is unclear."
         }
       ]
     },
     "expected_type": "pass",
     "candidate_ids": [
-      "fin_gross_margin"
+      "bfsi_nim",
+      "fin_gross_margin",
+      "ret_gmv"
     ],
     "high_confidence_ids": [
-      "fin_gross_margin"
+      "bfsi_nim",
+      "fin_gross_margin",
+      "ret_gmv"
     ]
   },
   {
@@ -102,9 +126,15 @@
               "title": "SLA Compliance Rate",
               "domain": "support",
               "confidence": 0.74
+            },
+            {
+              "metric_id": "saas_uptime_sla",
+              "title": "System SLA Availability",
+              "domain": "saas",
+              "confidence": 0.68
             }
           ],
-          "note": "Resolved."
+          "note": "Multiple candidates for 'sla_compliance'. Top match is recommended, but confirm with user if context is unclear."
         },
         {
           "indicator": "ticket_cycle",
@@ -120,6 +150,18 @@
               "title": "Support Ticket Volume",
               "domain": "support",
               "confidence": 0.68
+            },
+            {
+              "metric_id": "hc_bed_turnover",
+              "title": "Bed Turnover Interval",
+              "domain": "healthcare",
+              "confidence": 0.68
+            },
+            {
+              "metric_id": "log_dock_to_stock",
+              "title": "Dock-to-Stock Inbound Cycle Time",
+              "domain": "logistics",
+              "confidence": 0.68
             }
           ],
           "note": "Multiple candidates for 'ticket_cycle'. Top match is recommended, but confirm with user if context is unclear."
@@ -129,11 +171,17 @@
     "expected_type": "pass",
     "candidate_ids": [
       "eng_ticket_cycle",
+      "hc_bed_turnover",
+      "log_dock_to_stock",
+      "saas_uptime_sla",
       "sup_sla_compliance",
       "sup_ticket_volume"
     ],
     "high_confidence_ids": [
       "eng_ticket_cycle",
+      "hc_bed_turnover",
+      "log_dock_to_stock",
+      "saas_uptime_sla",
       "sup_sla_compliance",
       "sup_ticket_volume"
     ]
@@ -158,6 +206,24 @@
               "title": "Operating Expenses (OpEx)",
               "domain": "finance",
               "confidence": 0.78
+            },
+            {
+              "metric_id": "ret_cac",
+              "title": "Customer Acquisition Cost (CAC)",
+              "domain": "retail",
+              "confidence": 0.78
+            },
+            {
+              "metric_id": "log_freight_cost",
+              "title": "Freight Cost per Ton-Mile",
+              "domain": "logistics",
+              "confidence": 0.78
+            },
+            {
+              "metric_id": "saas_cloud_cost",
+              "title": "Cloud Compute Cost per API Query",
+              "domain": "saas",
+              "confidence": 0.78
             }
           ],
           "note": "Ambiguous: 'cost' matches multiple metrics with equal confidence. Please clarify which metric the user wants before fetching."
@@ -167,11 +233,17 @@
     "expected_type": "clarification",
     "candidate_ids": [
       "fin_cogs",
-      "fin_opex"
+      "fin_opex",
+      "log_freight_cost",
+      "ret_cac",
+      "saas_cloud_cost"
     ],
     "high_confidence_ids": [
       "fin_cogs",
-      "fin_opex"
+      "fin_opex",
+      "log_freight_cost",
+      "ret_cac",
+      "saas_cloud_cost"
     ]
   },
   {

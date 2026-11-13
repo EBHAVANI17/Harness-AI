@@ -1,0 +1,7 @@
+facility_id,department,bed_occupancy_rate,bed_turnover_days,readmission_rate_30d,alos_days,er_wait_mins,nurse_patient_ratio,date
+HOSP-NORTH,ICU,88.5,1.8,9.2,4.2,42,1.2,2024-Q4
+HOSP-NORTH,Emergency,94.2,0.9,12.5,3.1,68,2.5,2024-Q4
+HOSP-NORTH,General_Ward,76.4,3.2,7.1,5.6,24,4.1,2024-Q4
+HOSP-SOUTH,ICU,91.0,1.5,8.8,4.5,38,1.1,2024-Q4
+HOSP-SOUTH,Emergency,96.8,0.8,13.1,2.9,74,2.8,2024-Q4
+HOSP-SOUTH,General_Ward,82.3,2.9,6.8,5.1,28,3.9,2024-Q4

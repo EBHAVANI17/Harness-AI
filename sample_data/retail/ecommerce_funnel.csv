@@ -1,0 +1,5 @@
+channel_id,device_type,cac_usd,roas_multiplier,return_rate_pct,aov_usd,cart_abandonment_pct,gmv_usd,period
+DTC-WEB,Desktop,48.5,4.6,8.2,142.50,68.4,12400000,2024-Q4
+DTC-MOBILE,Mobile_App,36.2,5.2,11.5,98.20,74.1,18900000,2024-Q4
+MARKETPLACE-AMZ,Cross_Channel,62.0,3.1,14.8,115.00,59.2,28400000,2024-Q4
+SOCIAL-INSTA,In_App_Social,52.8,3.9,9.4,84.10,81.3,7600000,2024-Q4
