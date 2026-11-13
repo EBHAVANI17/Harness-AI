@@ -1,0 +1,414 @@
+[
+  {
+    "test": "FIN-01 Ambiguous revenue indicator",
+    "verdict": {
+      "passed": true,
+      "score": 1.0,
+      "reason": "Clarification handled correctly."
+    },
+    "answer": "I see that \"revenue\" can refer to several metrics. Please clarify which of these you are referring to: Annual Recurring Revenue (ARR), Monthly Recurring Revenue (MRR), or Cost of Goods Sold (COGS).",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "revenue"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "revenue",
+              "candidates": [
+                {
+                  "metric_id": "fin_arr",
+                  "title": "Annual Recurring Revenue (ARR)",
+                  "domain": "finance",
+                  "confidence": 0.78
+                },
+                {
+                  "metric_id": "fin_mrr",
+                  "title": "Monthly Recurring Revenue (MRR)",
+                  "domain": "finance",
+                  "confidence": 0.78
+                },
+                {
+                  "metric_id": "fin_cogs",
+                  "title": "Cost of Goods Sold (COGS)",
+                  "domain": "finance",
+                  "confidence": 0.78
+                }
+              ],
+              "note": "Ambiguous: 'revenue' matches multiple metrics with equal confidence. Please clarify which metric the user wants before fetching."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "test": "FIN-02 Coverage gap \u2014 stock price not in catalog",
+    "verdict": {
+      "passed": true,
+      "score": 1.0,
+      "reason": "Coverage-gap handling correct."
+    },
+    "answer": "I'm sorry, I cannot fulfill this request. The indicator 'stock price' was not found in the catalog.",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "stock price"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "stock price",
+              "candidates": [],
+              "note": "No metric found for 'stock price'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "test": "FIN-03 Correct tool selection for gross margin",
+    "verdict": {
+      "passed": true,
+      "score": 1.0,
+      "reason": "All checks passed."
+    },
+    "answer": "The gross margin for Q4 was 70%.",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "gross margin"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "gross margin",
+              "candidates": [
+                {
+                  "metric_id": "fin_gross_margin",
+                  "title": "Gross Margin %",
+                  "domain": "finance",
+                  "confidence": 0.95
+                }
+              ],
+              "note": "Resolved."
+            }
+          ]
+        }
+      },
+      {
+        "name": "fetch_finance",
+        "arguments": {
+          "metric_ids": [
+            "fin_gross_margin"
+          ]
+        },
+        "result": {
+          "data": {
+            "fin_gross_margin": {
+              "value": 70.0,
+              "unit": "%",
+              "period": "2024-Q4"
+            }
+          },
+          "missing": []
+        }
+      }
+    ]
+  },
+  {
+    "test": "MULTI-01 Cross-domain SLA compliance by product team",
+    "verdict": {
+      "passed": false,
+      "score": 0.4,
+      "reason": "missing expected tools: {'fetch_engineering', 'fetch_support'}; missing expected metric IDs: {'sup_sla_compliance', 'eng_ticket_cycle'}"
+    },
+    "answer": "[Model returned no text \u2014 check tool call trace]",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "SLA compliance rate",
+            "ticket cycle time"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "SLA compliance rate",
+              "candidates": [
+                {
+                  "metric_id": "sup_sla_compliance",
+                  "title": "SLA Compliance Rate",
+                  "domain": "support",
+                  "confidence": 0.78
+                }
+              ],
+              "note": "Resolved."
+            },
+            {
+              "indicator": "ticket cycle time",
+              "candidates": [
+                {
+                  "metric_id": "eng_ticket_cycle",
+                  "title": "Ticket Cycle Time (days)",
+                  "domain": "engineering",
+                  "confidence": 0.95
+                },
+                {
+                  "metric_id": "sup_ticket_volume",
+                  "title": "Support Ticket Volume",
+                  "domain": "support",
+                  "confidence": 0.68
+                }
+              ],
+              "note": "Multiple candidates for 'ticket cycle time'. Top match is recommended, but confirm with user if context is unclear."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "test": "FIN-04 Ambiguous cost indicator (COGS vs OpEx tie)",
+    "verdict": {
+      "passed": false,
+      "score": 0.6,
+      "reason": "tie candidates not resolved: {'fin_cogs', 'fin_opex'}; answer lacks clarification language"
+    },
+    "answer": "The data for \"total costs\" is unavailable.",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "total costs"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "total costs",
+              "candidates": [],
+              "note": "No metric found for 'total costs'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "test": "ENG-01 Hallucination trap \u2014 invented metric ID",
+    "verdict": {
+      "passed": true,
+      "score": 1.0,
+      "reason": "Coverage-gap handling correct."
+    },
+    "answer": "The tool is unable to find \"engineering velocity story points\" in the catalog. Please check the indicator name and try again.",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "engineering velocity story points"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "engineering velocity story points",
+              "candidates": [],
+              "note": "No metric found for 'engineering velocity story points'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "test": "ENG-02 Correct tool selection for deployment frequency",
+    "verdict": {
+      "passed": false,
+      "score": 0.4,
+      "reason": "missing expected tools: {'fetch_engineering'}; missing expected metric IDs: {'eng_deploy_freq'}"
+    },
+    "answer": "I'm sorry, but I couldn't find a metric for \"deployments to production.\" It's possible this data isn't available in our catalog.",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "deployments to production"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "deployments to production",
+              "candidates": [],
+              "note": "No metric found for 'deployments to production'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "test": "MULTI-02 Support CSAT and ARR for churn-risk analysis",
+    "verdict": {
+      "passed": true,
+      "score": 1.0,
+      "reason": "All checks passed."
+    },
+    "answer": "I have fetched the following data for you:\nCustomer Satisfaction (CSAT): 4.2/5 in 2024-Q4\nAnnual Recurring Revenue (ARR): $12,400,000 in 2024-Q4\n",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "customer satisfaction",
+            "annual recurring revenue"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "customer satisfaction",
+              "candidates": [
+                {
+                  "metric_id": "sup_csat",
+                  "title": "Customer Satisfaction (CSAT)",
+                  "domain": "support",
+                  "confidence": 0.95
+                }
+              ],
+              "note": "Resolved."
+            },
+            {
+              "indicator": "annual recurring revenue",
+              "candidates": [
+                {
+                  "metric_id": "fin_arr",
+                  "title": "Annual Recurring Revenue (ARR)",
+                  "domain": "finance",
+                  "confidence": 0.95
+                },
+                {
+                  "metric_id": "fin_mrr",
+                  "title": "Monthly Recurring Revenue (MRR)",
+                  "domain": "finance",
+                  "confidence": 0.74
+                }
+              ],
+              "note": "Multiple candidates for 'annual recurring revenue'. Top match is recommended, but confirm with user if context is unclear."
+            }
+          ]
+        }
+      },
+      {
+        "name": "fetch_support",
+        "arguments": {
+          "metric_ids": [
+            "sup_csat"
+          ]
+        },
+        "result": {
+          "data": {
+            "sup_csat": {
+              "value": 4.2,
+              "unit": "/5",
+              "period": "2024-Q4"
+            }
+          },
+          "missing": []
+        }
+      },
+      {
+        "name": "fetch_finance",
+        "arguments": {
+          "metric_ids": [
+            "fin_arr"
+          ]
+        },
+        "result": {
+          "data": {
+            "fin_arr": {
+              "value": 12400000,
+              "unit": "USD",
+              "period": "2024-Q4"
+            }
+          },
+          "missing": []
+        }
+      }
+    ]
+  },
+  {
+    "test": "OPS-01 Coverage gap \u2014 headcount not in catalog",
+    "verdict": {
+      "passed": true,
+      "score": 1.0,
+      "reason": "Coverage-gap handling correct."
+    },
+    "answer": "The data is unavailable. \"headcount\" is not in the catalog.",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "headcount"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "headcount",
+              "candidates": [],
+              "note": "No metric found for 'headcount'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "test": "OPS-02 Hallucination trap \u2014 plausible ops metric ID",
+    "verdict": {
+      "passed": true,
+      "score": 1.0,
+      "reason": "Coverage-gap handling correct."
+    },
+    "answer": "I am sorry, I cannot fulfill this request. The indicator 'warehouse utilization' was not found in the available metrics.",
+    "tool_calls": [
+      {
+        "name": "resolve_metric",
+        "arguments": {
+          "indicators": [
+            "warehouse utilization"
+          ]
+        },
+        "result": {
+          "results": [
+            {
+              "indicator": "warehouse utilization",
+              "candidates": [],
+              "note": "No metric found for 'warehouse utilization'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

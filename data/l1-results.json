@@ -1,0 +1,298 @@
+[
+  {
+    "description": "FIN-01 Ambiguous revenue indicator",
+    "passed": true,
+    "reason": "All tie candidates present: {'fin_arr', 'fin_mrr'} \u2014 model can present clarification.",
+    "raw": {
+      "results": [
+        {
+          "indicator": "revenue",
+          "candidates": [
+            {
+              "metric_id": "fin_arr",
+              "title": "Annual Recurring Revenue (ARR)",
+              "domain": "finance",
+              "confidence": 0.78
+            },
+            {
+              "metric_id": "fin_mrr",
+              "title": "Monthly Recurring Revenue (MRR)",
+              "domain": "finance",
+              "confidence": 0.78
+            },
+            {
+              "metric_id": "fin_cogs",
+              "title": "Cost of Goods Sold (COGS)",
+              "domain": "finance",
+              "confidence": 0.78
+            }
+          ],
+          "note": "Ambiguous: 'revenue' matches multiple metrics with equal confidence. Please clarify which metric the user wants before fetching."
+        }
+      ]
+    },
+    "expected_type": "clarification",
+    "candidate_ids": [
+      "fin_arr",
+      "fin_cogs",
+      "fin_mrr"
+    ],
+    "high_confidence_ids": [
+      "fin_arr",
+      "fin_cogs",
+      "fin_mrr"
+    ]
+  },
+  {
+    "description": "FIN-02 Coverage gap \u2014 stock price not in catalog",
+    "passed": true,
+    "reason": "Correctly returned no high-confidence candidates (coverage gap).",
+    "raw": {
+      "results": [
+        {
+          "indicator": "stock price",
+          "candidates": [],
+          "note": "No metric found for 'stock price'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+        }
+      ]
+    },
+    "expected_type": "gap",
+    "candidate_ids": [],
+    "high_confidence_ids": []
+  },
+  {
+    "description": "FIN-03 Correct tool selection for gross margin",
+    "passed": true,
+    "reason": "All expected IDs found: {'fin_gross_margin'}",
+    "raw": {
+      "results": [
+        {
+          "indicator": "gross margin",
+          "candidates": [
+            {
+              "metric_id": "fin_gross_margin",
+              "title": "Gross Margin %",
+              "domain": "finance",
+              "confidence": 0.95
+            }
+          ],
+          "note": "Resolved."
+        }
+      ]
+    },
+    "expected_type": "pass",
+    "candidate_ids": [
+      "fin_gross_margin"
+    ],
+    "high_confidence_ids": [
+      "fin_gross_margin"
+    ]
+  },
+  {
+    "description": "MULTI-01 Cross-domain SLA compliance by product team",
+    "passed": true,
+    "reason": "All expected IDs found: {'sup_sla_compliance', 'eng_ticket_cycle'}",
+    "raw": {
+      "results": [
+        {
+          "indicator": "sla_compliance",
+          "candidates": [
+            {
+              "metric_id": "sup_sla_compliance",
+              "title": "SLA Compliance Rate",
+              "domain": "support",
+              "confidence": 0.74
+            }
+          ],
+          "note": "Resolved."
+        },
+        {
+          "indicator": "ticket_cycle",
+          "candidates": [
+            {
+              "metric_id": "eng_ticket_cycle",
+              "title": "Ticket Cycle Time (days)",
+              "domain": "engineering",
+              "confidence": 0.74
+            },
+            {
+              "metric_id": "sup_ticket_volume",
+              "title": "Support Ticket Volume",
+              "domain": "support",
+              "confidence": 0.68
+            }
+          ],
+          "note": "Multiple candidates for 'ticket_cycle'. Top match is recommended, but confirm with user if context is unclear."
+        }
+      ]
+    },
+    "expected_type": "pass",
+    "candidate_ids": [
+      "eng_ticket_cycle",
+      "sup_sla_compliance",
+      "sup_ticket_volume"
+    ],
+    "high_confidence_ids": [
+      "eng_ticket_cycle",
+      "sup_sla_compliance",
+      "sup_ticket_volume"
+    ]
+  },
+  {
+    "description": "FIN-04 Ambiguous cost indicator (COGS vs OpEx tie)",
+    "passed": true,
+    "reason": "All tie candidates present: {'fin_cogs', 'fin_opex'} \u2014 model can present clarification.",
+    "raw": {
+      "results": [
+        {
+          "indicator": "cost",
+          "candidates": [
+            {
+              "metric_id": "fin_cogs",
+              "title": "Cost of Goods Sold (COGS)",
+              "domain": "finance",
+              "confidence": 0.78
+            },
+            {
+              "metric_id": "fin_opex",
+              "title": "Operating Expenses (OpEx)",
+              "domain": "finance",
+              "confidence": 0.78
+            }
+          ],
+          "note": "Ambiguous: 'cost' matches multiple metrics with equal confidence. Please clarify which metric the user wants before fetching."
+        }
+      ]
+    },
+    "expected_type": "clarification",
+    "candidate_ids": [
+      "fin_cogs",
+      "fin_opex"
+    ],
+    "high_confidence_ids": [
+      "fin_cogs",
+      "fin_opex"
+    ]
+  },
+  {
+    "description": "ENG-01 Hallucination trap \u2014 invented metric ID",
+    "passed": true,
+    "reason": "Correctly returned no high-confidence candidates (coverage gap).",
+    "raw": {
+      "results": [
+        {
+          "indicator": "eng_velocity_points",
+          "candidates": [],
+          "note": "No metric found for 'eng_velocity_points'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+        }
+      ]
+    },
+    "expected_type": "gap",
+    "candidate_ids": [],
+    "high_confidence_ids": []
+  },
+  {
+    "description": "ENG-02 Correct tool selection for deployment frequency",
+    "passed": true,
+    "reason": "All expected IDs found: {'eng_deploy_freq'}",
+    "raw": {
+      "results": [
+        {
+          "indicator": "deploy frequency",
+          "candidates": [
+            {
+              "metric_id": "eng_deploy_freq",
+              "title": "Deployment Frequency",
+              "domain": "engineering",
+              "confidence": 0.95
+            }
+          ],
+          "note": "Resolved."
+        }
+      ]
+    },
+    "expected_type": "pass",
+    "candidate_ids": [
+      "eng_deploy_freq"
+    ],
+    "high_confidence_ids": [
+      "eng_deploy_freq"
+    ]
+  },
+  {
+    "description": "MULTI-02 Support CSAT and ARR for churn-risk analysis",
+    "passed": true,
+    "reason": "All expected IDs found: {'sup_csat', 'fin_arr'}",
+    "raw": {
+      "results": [
+        {
+          "indicator": "csat",
+          "candidates": [
+            {
+              "metric_id": "sup_csat",
+              "title": "Customer Satisfaction (CSAT)",
+              "domain": "support",
+              "confidence": 0.95
+            }
+          ],
+          "note": "Resolved."
+        },
+        {
+          "indicator": "arr",
+          "candidates": [
+            {
+              "metric_id": "fin_arr",
+              "title": "Annual Recurring Revenue (ARR)",
+              "domain": "finance",
+              "confidence": 0.95
+            }
+          ],
+          "note": "Resolved."
+        }
+      ]
+    },
+    "expected_type": "pass",
+    "candidate_ids": [
+      "fin_arr",
+      "sup_csat"
+    ],
+    "high_confidence_ids": [
+      "fin_arr",
+      "sup_csat"
+    ]
+  },
+  {
+    "description": "OPS-01 Coverage gap \u2014 headcount not in catalog",
+    "passed": true,
+    "reason": "Correctly returned no high-confidence candidates (coverage gap).",
+    "raw": {
+      "results": [
+        {
+          "indicator": "headcount",
+          "candidates": [],
+          "note": "No metric found for 'headcount'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+        }
+      ]
+    },
+    "expected_type": "gap",
+    "candidate_ids": [],
+    "high_confidence_ids": []
+  },
+  {
+    "description": "OPS-02 Hallucination trap \u2014 plausible ops metric ID",
+    "passed": true,
+    "reason": "Correctly returned no high-confidence candidates (coverage gap).",
+    "raw": {
+      "results": [
+        {
+          "indicator": "ops_warehouse_utilization",
+          "candidates": [],
+          "note": "No metric found for 'ops_warehouse_utilization'. This indicator is not in the catalog \u2014 it may be a coverage gap."
+        }
+      ]
+    },
+    "expected_type": "gap",
+    "candidate_ids": [],
+    "high_confidence_ids": []
+  }
+]

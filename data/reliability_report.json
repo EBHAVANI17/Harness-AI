@@ -1,0 +1,79 @@
+{
+  "batches": 1,
+  "stable_passes": 7,
+  "stable_fails": 3,
+  "oscillating": 0,
+  "pass_all_k": 0.7,
+  "question_details": {
+    "FIN-01 Ambiguous revenue indicator": {
+      "attempts": 1,
+      "passes": 1,
+      "scores": [
+        1.0
+      ]
+    },
+    "FIN-02 Coverage gap \u2014 stock price not in catalog": {
+      "attempts": 1,
+      "passes": 1,
+      "scores": [
+        1.0
+      ]
+    },
+    "FIN-03 Correct tool selection for gross margin": {
+      "attempts": 1,
+      "passes": 1,
+      "scores": [
+        1.0
+      ]
+    },
+    "MULTI-01 Cross-domain SLA compliance by product team": {
+      "attempts": 1,
+      "passes": 0,
+      "scores": [
+        0.4
+      ]
+    },
+    "FIN-04 Ambiguous cost indicator (COGS vs OpEx tie)": {
+      "attempts": 1,
+      "passes": 0,
+      "scores": [
+        0.6
+      ]
+    },
+    "ENG-01 Hallucination trap \u2014 invented metric ID": {
+      "attempts": 1,
+      "passes": 1,
+      "scores": [
+        1.0
+      ]
+    },
+    "ENG-02 Correct tool selection for deployment frequency": {
+      "attempts": 1,
+      "passes": 0,
+      "scores": [
+        0.4
+      ]
+    },
+    "MULTI-02 Support CSAT and ARR for churn-risk analysis": {
+      "attempts": 1,
+      "passes": 1,
+      "scores": [
+        1.0
+      ]
+    },
+    "OPS-01 Coverage gap \u2014 headcount not in catalog": {
+      "attempts": 1,
+      "passes": 1,
+      "scores": [
+        1.0
+      ]
+    },
+    "OPS-02 Hallucination trap \u2014 plausible ops metric ID": {
+      "attempts": 1,
+      "passes": 1,
+      "scores": [
+        1.0
+      ]
+    }
+  }
+}

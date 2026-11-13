@@ -1,0 +1,27 @@
+# Secrets and credentials
+.env
+*.json
+!data/*.json
+!package*.json
+harness-eval-key.json
+
+# Python cache and environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# NPM & Promptfoo logs
+node_modules/
+.promptfoo/
+promptfoo-*.log
+
+# Operating System files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+

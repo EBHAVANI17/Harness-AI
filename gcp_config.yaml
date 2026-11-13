@@ -1,0 +1,37 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# gcp_config.yaml
+#
+# Edit this file after running:  python gcp_discover.py
+#
+# That script will list all your GCS buckets and auto-detect column names.
+# Replace every "your-bucket-name" below with the real bucket names it reports,
+# and update the file paths to match what gcp_discover.py found.
+#
+# Format:
+#   <domain>:
+#     bucket: <gcs-bucket-name>
+#     files:
+#       - path: <blob-path-inside-bucket>   # optional comment: column names
+# ──────────────────────────────────────────────────────────────────────────────
+
+finance:
+  bucket: your-bucket-name        # e.g. acme-finance-data
+  files:
+    - path: finance/revenue.csv   # columns: date, metric_name, value, currency
+    - path: finance/costs.parquet # columns: date, category, amount
+
+engineering:
+  bucket: your-bucket-name        # e.g. acme-engineering-data
+  files:
+    - path: eng/deployments.json  # columns: date, team, deploy_count
+    - path: eng/bugs.csv          # columns: date, severity, open_count, closed_count
+
+support:
+  bucket: your-bucket-name        # e.g. acme-support-data
+  files:
+    - path: support/tickets.csv   # columns: ticket_id, created_at, resolved_at, sla_met, product, csat
+
+operations:
+  bucket: your-bucket-name        # e.g. acme-ops-data
+  files:
+    - path: ops/supply_chain.csv  # columns: date, metric, value, unit

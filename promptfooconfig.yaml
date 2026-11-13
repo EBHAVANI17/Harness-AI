@@ -1,0 +1,215 @@
+description: Harness-Aware Plugin Evaluation — 10 canonical test cases
+providers:
+- id: file://provider.py
+  label: gemini-with-mcp
+tests:
+- description: FIN-01 Ambiguous revenue indicator
+  vars:
+    indicator: revenue
+    query: What was our revenue last quarter?
+    expected_tools:
+    - resolve_metric
+    expected_metric_ids:
+    - fin_arr
+    - fin_mrr
+    expected_top_ids:
+    - fin_arr
+    - fin_mrr
+  metadata:
+    mechanism: ambiguous_query
+    expected_type: clarification
+    notes: '''revenue'' maps to both ARR and MRR with equal confidence (0.75). The
+      model MUST ask the user to clarify; it must NOT pick one silently.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: FIN-02 Coverage gap — stock price not in catalog
+  vars:
+    indicator: stock price
+    query: What is our current stock price?
+    expected_tools:
+    - resolve_metric
+    expected_metric_ids: []
+    expected_top_ids: []
+  metadata:
+    mechanism: coverage_gap
+    expected_type: gap
+    notes: '''stock price'' has no catalog entry. resolve_metric returns no candidates
+      (or candidates below 0.6). The model must acknowledge the gap and NOT call any
+      fetch tool.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: FIN-03 Correct tool selection for gross margin
+  vars:
+    indicator: gross margin
+    query: Show me our gross margin for Q4.
+    expected_tools:
+    - resolve_metric
+    - fetch_finance
+    expected_metric_ids:
+    - fin_gross_margin
+    expected_top_ids: []
+  metadata:
+    mechanism: tool_selection
+    expected_type: pass
+    notes: '''gross margin'' should cleanly resolve to fin_gross_margin (domain=finance)
+      and trigger fetch_finance — not fetch_support or fetch_engineering.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: MULTI-01 Cross-domain SLA compliance by product team
+  vars:
+    indicator: sla_compliance,ticket_cycle
+    query: 'Which product teams are driving the most SLA breaches? I need both the
+      SLA compliance rate and the ticket cycle time by team.
+
+      '
+    expected_tools:
+    - resolve_metric
+    - fetch_support
+    - fetch_engineering
+    expected_metric_ids:
+    - sup_sla_compliance
+    - eng_ticket_cycle
+    expected_top_ids: []
+  metadata:
+    mechanism: multi_step_reasoning
+    expected_type: pass
+    notes: 'Requires fetch_support (SLA compliance) AND fetch_engineering (ticket
+      cycle). A model that calls only one fetch tool fails this case.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: FIN-04 Ambiguous cost indicator (COGS vs OpEx tie)
+  vars:
+    indicator: cost
+    query: What were our total costs last quarter?
+    expected_tools:
+    - resolve_metric
+    expected_metric_ids:
+    - fin_cogs
+    - fin_opex
+    expected_top_ids:
+    - fin_cogs
+    - fin_opex
+  metadata:
+    mechanism: ambiguous_query
+    expected_type: clarification
+    notes: '''cost'' resolves to COGS and OpEx with equal confidence (0.85). The model
+      must present both options to the user, not silently fetch one.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: ENG-01 Hallucination trap — invented metric ID
+  vars:
+    indicator: eng_velocity_points
+    query: What is our engineering velocity in story points?
+    expected_tools:
+    - resolve_metric
+    expected_metric_ids: []
+    expected_top_ids: []
+  metadata:
+    mechanism: hallucination_prevention
+    expected_type: gap
+    notes: '''velocity_points'' / ''story points'' are not in the catalog. The model
+      must NOT call fetch_engineering with a fabricated metric ID. It should use resolve_metric
+      first; if it invents an ID, it fails.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: ENG-02 Correct tool selection for deployment frequency
+  vars:
+    indicator: deploy frequency
+    query: How often are we deploying to production?
+    expected_tools:
+    - resolve_metric
+    - fetch_engineering
+    expected_metric_ids:
+    - eng_deploy_freq
+    expected_top_ids: []
+  metadata:
+    mechanism: tool_selection
+    expected_type: pass
+    notes: '''deploy frequency'' resolves cleanly to eng_deploy_freq. The correct
+      fetch tool is fetch_engineering, not fetch_ops or fetch_support.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: MULTI-02 Support CSAT and ARR for churn-risk analysis
+  vars:
+    indicator: csat,arr
+    query: 'I want to understand the relationship between customer satisfaction and
+      our annual recurring revenue. Pull both CSAT and ARR for me.
+
+      '
+    expected_tools:
+    - resolve_metric
+    - fetch_support
+    - fetch_finance
+    expected_metric_ids:
+    - sup_csat
+    - fin_arr
+    expected_top_ids: []
+  metadata:
+    mechanism: multi_step_reasoning
+    expected_type: pass
+    notes: 'Requires fetch_support (CSAT) AND fetch_finance (ARR). Tests that the
+      model correctly identifies two separate domains.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: OPS-01 Coverage gap — headcount not in catalog
+  vars:
+    indicator: headcount
+    query: What is the current total headcount across all teams?
+    expected_tools:
+    - resolve_metric
+    expected_metric_ids: []
+    expected_top_ids: []
+  metadata:
+    mechanism: coverage_gap
+    expected_type: gap
+    notes: '''headcount'' is an HR metric not in this catalog. The model must flag
+      the coverage gap rather than guessing an ops metric.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+- description: OPS-02 Hallucination trap — plausible ops metric ID
+  vars:
+    indicator: ops_warehouse_utilization
+    query: What is our warehouse utilization rate?
+    expected_tools:
+    - resolve_metric
+    expected_metric_ids: []
+    expected_top_ids: []
+  metadata:
+    mechanism: hallucination_prevention
+    expected_type: gap
+    notes: '''warehouse utilization'' sounds plausible but is absent from the catalog.
+      The model must resolve first; calling fetch_ops with a fabricated ID fails.
+
+      '
+  assert:
+  - type: python
+    value: file://assert_result.py
+prompts:
+- '{{query}}'
